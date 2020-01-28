@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if ticker %}
+    {{ ticker }}
+{% endif%}
+
+{% if api %}
+    {% if api == "Error..." %}
+        There was a problem with your ticker symbol. Please try again.
+    {% else %}
+
+        <h1>{{ api.companyName }}</h1><br/>
+        Price: ${{ api.latestPrice }}
+        {% if api.latestPrice > api.previousClose %}
+            Higher <i class="fas fa-caret-up text-success" style="font-size:1.5rem;"></i>
+        {% else %}
+            Lower <i class="fas fa-caret-down text-danger" style="font-size:1.5rem;"></i>
+        {% endif %}
+        <br/>
+        Previous Close: ${{ api.previousClose }}<br/>
+        Percent Change: {{ api.changePercent }}%<br/>
+        YTD Change: {{ api.ytdChange }}<br/>
+
+        <hr />
+        
+        {% for key, value in api.items %}
+            {{ key }}: {{ value }}<br/>
+        {% endfor %}
+
+    {% endif %}
+{% endif %}
+
+{% endblock %}
